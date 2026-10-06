@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MySock Hub - Dashboard</title>
+<meta name="description" content="MySock Hub — internships, jobs and useful updates in one dashboard.">
+<style>
+:root{
+  --blue:#155eef; --blue-dark:#0b3ea8; --blue-soft:#eef5ff; --text:#132238;
+  --muted:#667085; --border:#dbe4f0; --bg:#f6f9fc; --white:#fff; --shadow:0 12px 30px rgba(15,45,85,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,a{font:inherit}
+a{text-decoration:none;color:inherit}
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav{max-width:1150px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;color:var(--blue-dark);letter-spacing:-.02em}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--blue),#4f8cff);display:grid;place-items:center;color:white;box-shadow:0 8px 18px rgba(21,94,239,.22)}
+.tabs{display:flex;gap:7px;padding:5px;background:#f1f5f9;border:1px solid var(--border);border-radius:13px}
+.tab{border:0;background:transparent;color:#475467;font-weight:700;padding:9px 15px;border-radius:9px;cursor:pointer;transition:.2s}
+.tab:hover{color:var(--blue)}
+.tab.active{background:white;color:var(--blue);box-shadow:0 2px 8px rgba(16,24,40,.08)}
+.container{max-width:1150px;margin:0 auto;padding:42px 22px 20px}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:28px}
+.eyebrow{color:var(--blue);font-weight:800;font-size:.84rem;text-transform:uppercase;letter-spacing:.08em}
+h1{margin:6px 0 8px;font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-.045em}
+.hero p{margin:0;max-width:690px;color:var(--muted);font-size:1.02rem}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid #cfe0ff;background:var(--blue-soft);color:var(--blue-dark);border-radius:999px;font-size:.84rem;font-weight:700;white-space:nowrap}
+.panel{background:white;border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:22px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+.panel-head h2{margin:0;font-size:1.18rem}
+.panel-head span{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:.22s;cursor:pointer;box-shadow:0 5px 16px rgba(16,24,40,.04)}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(16,24,40,.10);border-color:#bfd3f5}
+.card img{width:100%;height:175px;object-fit:cover;display:block}
+.card-body{padding:17px}
+.card-tag{display:inline-block;font-size:.75rem;font-weight:800;color:var(--blue);background:var(--blue-soft);padding:5px 8px;border-radius:7px}
+.card h3{margin:11px 0 7px;font-size:1.1rem}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:15px;color:var(--blue);font-size:.86rem;font-weight:800}
+.placeholder{min-height:285px;display:grid;place-items:center;text-align:center;padding:40px}
+.placeholder-icon{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue);font-size:1.45rem;margin:0 auto 15px}
+.placeholder h2{margin:0 0 7px}
+.placeholder p{max-width:540px;margin:0;color:var(--muted)}
+.tc{max-width:850px}
+.tc h2{margin-top:0}
+.tc h3{margin-bottom:7px}
+.tc p{color:#475467}
+footer{max-width:1150px;margin:34px auto 0;padding:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:.88rem}
+.footer-link{border:0;background:none;color:var(--blue);font-weight:700;cursor:pointer;padding:0}
+.modal-backdrop{position:fixed;inset:0;background:rgba(12,24,42,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modal-backdrop.show{display:flex}
+.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 25px 70px rgba(0,0,0,.24);position:relative}
+.modal img{width:100%;height:220px;object-fit:cover}
+.modal-content{padding:26px}
+.modal-content h2{margin:0 0 9px;font-size:1.55rem}
+.modal-content p,.modal-content li{color:#475467}
+.modal-close{position:absolute;right:14px;top:14px;border:0;width:39px;height:39px;border-radius:50%;background:rgba(255,255,255,.94);font-size:1.3rem;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:11px;padding:11px 16px;font-weight:800;cursor:pointer}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark)}
+.note{font-size:.8rem;color:#667085;margin-top:10px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{align-items:flex-start;flex-direction:column}.tabs{width:100%;justify-content:space-between}.tab{flex:1}}
+@media(max-width:600px){.nav{align-items:flex-start;flex-direction:column}.tabs{width:100%;overflow:auto}.tab{white-space:nowrap}.grid{grid-template-columns:1fr}.container{padding-top:28px}footer{margin:18px 22px 0;padding-left:0;padding-right:0;flex-direction:column}.modal img{height:180px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="#" class="brand" onclick="showSection('internships');return false;">
+      <span class="brand-mark">M</span><span>MySock Hub</span>
+    </a>
+    <div class="tabs" role="tablist" aria-label="Dashboard sections">
+      <button class="tab active" data-section="internships" role="tab" aria-selected="true">Internships</button>
+      <button class="tab" data-section="jobs" role="tab" aria-selected="false">Jobs</button>
+      <button class="tab" data-section="updates" role="tab" aria-selected="false">Updates</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Student Opportunity Dashboard</div>
+      <h1>MySock Hub - Dashboard</h1>
+      <p>Discover internships, keep an eye on future job openings, and find useful technology updates — all without leaving the page.</p>
+    </div>
+    <div class="badge">● Live dashboard UI</div>
+  </section>
+
+  <div id="app"></div>
+</main>
+
+<footer>
+  <div>© <span id="year"></span> MySock Hub (hub.mysock.in)</div>
+  <button class="footer-link" id="termsBtn">Terms and Conditions</button>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="closeModal" aria-label="Close">×</button>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Main_building_in_IIT_Bombay.jpg" alt="IIT Bombay main building">
+    <div class="modal-content">
+      <span class="card-tag">Internship Opportunity</span>
+      <h2 id="modalTitle">IIT Bombay Internship</h2>
+      <p>This is a sample information card for an IIT Bombay internship listing on MySock Hub. The actual role, dates, eligibility and application instructions should always be verified on the official institute or programme portal before applying.</p>
+      <h3>Typical eligibility</h3>
+      <ul>
+        <li>Current undergraduate, postgraduate or research students may be considered depending on the specific programme.</li>
+        <li>Requirements can vary by department, faculty member, project and application cycle.</li>
+        <li>Applicants should review the official notice for deadlines, documents, fees, funding and selection criteria.</li>
+      </ul>
+      <h3>Application</h3>
+      <p>MySock Hub is only providing an informational interface. Use the official IIT Bombay portal for the authoritative internship details and application process.</p>
+      <a class="btn btn-primary" href="https://www.iitb.ac.in/" target="_blank" rel="noopener noreferrer">Visit Official Portal ↗</a>
+      <div class="note">External link opens the official IIT Bombay website in a new tab.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const app = document.getElementById('app');
+const tabs = document.querySelectorAll('.tab');
+const backdrop = document.getElementById('modalBackdrop');
+const closeModal = document.getElementById('closeModal');
+
+const internshipHTML = `
+<section class="panel">
+  <div class="panel-head"><h2>Featured Internships</h2><span>Tap a card to view details</span></div>
+  <div class="grid">
+    <article class="card" onclick="openModal()">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Main_building_in_IIT_Bombay.jpg" alt="IIT Bombay main building">
+      <div class="card-body">
+        <span class="card-tag">Featured</span>
+        <h3>IIT Bombay Internship</h3>
+        <p>Explore a sample internship listing and eligibility overview.</p>
+        <div class="card-footer"><span>View details</span><span>→</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="placeholderCard()">
+      <div style="height:175px;background:linear-gradient(135deg,#dce9ff,#f4f8ff);display:grid;place-items:center;color:#155eef;font-weight:800;font-size:2rem">+</div>
+      <div class="card-body">
+        <span class="card-tag">Coming soon</span>
+        <h3>Future Internship</h3>
+        <p>Placeholder card for the next verified opportunity.</p>
+        <div class="card-footer"><span>Coming soon</span><span>→</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="placeholderCard()">
+      <div style="height:175px;background:linear-gradient(135deg,#e8f2ff,#f7fbff);display:grid;place-items:center;color:#155eef;font-weight:800;font-size:2rem">＋</div>
+      <div class="card-body">
+        <span class="card-tag">Coming soon</span>
+        <h3>Research Opportunity</h3>
+        <p>Another placeholder for a future internship or research opening.</p>
+        <div class="card-footer"><span>Coming soon</span><span>→</span></div>
+      </div>
+    </article>
+  </div>
+</section>`;
+
+const simpleSection = (title, subtitle, heading, text) => `
+<section class="panel placeholder">
+  <div>
+    <div class="placeholder-icon">✦</div>
+    <h2>${heading}</h2>
+    <p>${text}</p>
+  </div>
+</section>`;
+
+const termsHTML = `
+<section class="panel tc">
+  <div class="eyebrow">Legal</div>
+  <h2>Terms and Conditions</h2>
+  <p><strong>MySock Hub (hub.mysock.in)</strong> is an educational and informational platform. The information shown on this website is intended to help students discover and organize opportunities and technology resources.</p>
+  <h3>1. Informational purpose</h3>
+  <p>Listings, descriptions, deadlines and other details may be sample, incomplete, outdated or subject to change. Users should verify important information directly with the relevant official organization before applying, paying fees or making decisions.</p>
+  <h3>2. No guarantee</h3>
+  <p>MySock Hub does not guarantee selection, employment, internship placement, accuracy, availability or completeness of any third-party opportunity.</p>
+  <h3>3. External websites</h3>
+  <p>Links to third-party websites are provided for convenience. Their content and policies are controlled by those external organizations.</p>
+  <h3>4. Responsible use</h3>
+  <p>Users are responsible for reviewing eligibility, deadlines, documentation requirements and other official instructions before taking action.</p>
+  <h3>5. Changes</h3>
+  <p>These terms and the website content may be updated from time to time without prior notice.</p>
+  <button class="btn btn-primary" onclick="showSection('internships')">Back to Dashboard</button>
+</section>`;
+
+function showSection(section){
+  tabs.forEach(tab=>{
+    const active = tab.dataset.section===section;
+    tab.classList.toggle('active',active);
+    tab.setAttribute('aria-selected',active);
+  });
+  if(section==='internships'){
+    app.innerHTML=internshipHTML;
+  }else if(section==='jobs'){
+    app.innerHTML=simpleSection('Jobs','Jobs','Latest job openings will be updated here','This space is reserved for verified job listings, application links and concise job-related updates.');
+  }else if(section==='updates'){
+    app.innerHTML=simpleSection('Updates','Updates','Latest tech updates, useful apps, and software tools','This space will contain practical technology news, useful apps, software tools and student-focused resources.');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabs.forEach(tab=>tab.addEventListener('click',()=>showSection(tab.dataset.section)));
+
+function openModal(){
+  backdrop.classList.add('show');
+  backdrop.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function close(){
+  backdrop.classList.remove('show');
+  backdrop.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+function placeholderCard(){ alert('This placeholder will be replaced with a verified opportunity in a future update.'); }
+closeModal.addEventListener('click',close);
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)close();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+document.getElementById('termsBtn').addEventListener('click',()=>{
+  tabs.forEach(tab=>{tab.classList.remove('active');tab.setAttribute('aria-selected','false');});
+  app.innerHTML=termsHTML;
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('year').textContent=new Date().getFullYear();
+showSection('internships');
+</script>
+</body>
+</html>
