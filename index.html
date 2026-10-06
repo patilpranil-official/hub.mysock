@@ -237,6 +237,74 @@ const internshipHTML = `
   </div>
 </section>`;
 
+const jobsHTML = `
+<section class="panel">
+  <div class="panel-head"><h2>Latest Job Openings</h2><span>Official career portals</span></div>
+  <div class="grid">
+    <article class="card" onclick="openExternal('https://careers.infosys.com/')">
+      <div style="height:175px;background:linear-gradient(135deg,#eef4ff,#f8fbff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:2rem">Infosys</div>
+      <div class="card-body">
+        <span class="card-tag">Live career portal</span>
+        <h3>Infosys – Current Openings</h3>
+        <p>Search current graduate, experienced-professional, student and internship opportunities on the official Infosys careers portal.</p>
+        <div class="card-footer"><span>Open official careers</span><span>↗</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="openExternal('https://www.tcs.com/careers/india')">
+      <div style="height:175px;background:linear-gradient(135deg,#edf6ff,#f9fcff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:2rem">TCS</div>
+      <div class="card-body">
+        <span class="card-tag">Live career portal</span>
+        <h3>TCS India – Careers</h3>
+        <p>Explore entry-level, internship and lateral opportunities through the official TCS India careers page.</p>
+        <div class="card-footer"><span>Open official careers</span><span>↗</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="openExternal('https://digitalcareers.infosys.com/infosys/global-careers')">
+      <div style="height:175px;background:linear-gradient(135deg,#f0f7ff,#fbfdff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:2rem">Jobs</div>
+      <div class="card-body">
+        <span class="card-tag">Search openings</span>
+        <h3>Infosys Job Search</h3>
+        <p>Use the live search interface to filter current openings by role, keyword and location.</p>
+        <div class="card-footer"><span>Search jobs</span><span>↗</span></div>
+      </div>
+    </article>
+  </div>
+</section>`;
+
+const updatesHTML = `
+<section class="panel">
+  <div class="panel-head"><h2>Latest Updates</h2><span>Verified official links</span></div>
+  <div class="grid">
+    <article class="card" onclick="openExternal('https://www.ircc.iitb.ac.in/IRCC-Webpage/IITBInternship/')">
+      <div style="height:175px;background:linear-gradient(135deg,#edf5ff,#fff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:1.7rem">IITB</div>
+      <div class="card-body">
+        <span class="card-tag">Internship</span>
+        <h3>IIT Bombay Research Internship Awards 2026–27</h3>
+        <p>Official programme page with timeline, eligibility, application details and selection updates.</p>
+        <div class="card-footer"><span>View official page</span><span>↗</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="openExternal('https://www.ircc.iitb.ac.in/IRCC-Webpage/AvailableInternshipProposals.jsp')">
+      <div style="height:175px;background:linear-gradient(135deg,#f2f7ff,#fff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:1.7rem">Projects</div>
+      <div class="card-body">
+        <span class="card-tag">Research openings</span>
+        <h3>IIT Bombay – Available Projects</h3>
+        <p>Open the official list of available internship research projects and project details.</p>
+        <div class="card-footer"><span>View projects</span><span>↗</span></div>
+      </div>
+    </article>
+    <article class="card" onclick="openExternal('https://ircc.iitb.ac.in/IRCC-Webpage/ResearchFellowshipShortListedCandidateDetails.jsp')">
+      <div style="height:175px;background:linear-gradient(135deg,#eef6ff,#fff);display:grid;place-items:center;color:#155eef;font-weight:900;font-size:1.7rem">Status</div>
+      <div class="card-body">
+        <span class="card-tag">Selection update</span>
+        <h3>IIT Bombay – Shortlisted Candidates</h3>
+        <p>Official page for shortlisted-candidate information for the research internship awards.</p>
+        <div class="card-footer"><span>Check status</span><span>↗</span></div>
+      </div>
+    </article>
+  </div>
+</section>`;
+
 const simpleSection = (title, subtitle, heading, text) => `
 <section class="panel placeholder">
   <div>
