@@ -71,7 +71,8 @@ footer{max-width:1150px;margin:34px auto 0;padding:22px;border-top:1px solid var
 <body>
 <header class="header">
   <nav class="nav" aria-label="Main navigation">
-    <a href="#" class="brand" onclick="showSection('internships');return false;">
+    <a href="#" class="brand" onclick="showSection('internships');
+setTimeout(openPaymentDemo,350);return false;">
       <span class="brand-mark">M</span><span>MySock Hub</span>
     </a>
     <div class="tabs" role="tablist" aria-label="Dashboard sections">
@@ -179,6 +180,23 @@ footer{max-width:1150px;margin:34px auto 0;padding:22px;border-top:1px solid var
   </div>
 </div>
 
+<div class="modal-backdrop" id="paymentDemoBackdrop" aria-hidden="true">
+  <div class="modal payment-modal" role="dialog" aria-modal="true" aria-labelledby="paymentDemoTitle">
+    <button class="modal-close" id="closePaymentDemo" aria-label="Close">×</button>
+    <div class="modal-content" style="padding:30px">
+      <span class="card-tag">Demo Payment Gateway</span>
+      <h2 id="paymentDemoTitle">₹1 Platform Handling Fee</h2>
+      <p>MySock Hub may later use a payment gateway for a small platform-handling charge. This screen is a <strong>demo only</strong>: no real payment, card, UPI or bank transaction is processed here.</p>
+      <div style="background:#f7faff;border:1px solid #dbe8ff;border-radius:14px;padding:16px;margin:16px 0">
+        <div style="display:flex;justify-content:space-between;gap:15px"><span>Platform handling</span><strong>₹1.00</strong></div>
+        <div style="display:flex;justify-content:space-between;gap:15px;margin-top:8px;color:#667085"><span>Gateway</span><span>Demo / Test Mode</span></div>
+        <div style="display:flex;justify-content:space-between;gap:15px;margin-top:8px;color:#667085"><span>Amount payable</span><strong style="color:#132238">₹1.00</strong></div>
+      </div>
+      <button class="btn btn-primary" id="demoPayButton" style="width:100%">Continue Demo Payment</button>
+      <p id="demoPaymentStatus" class="note" style="text-align:center;margin-top:12px">No real money will be charged.</p>
+    </div>
+  </div>
+</div>
 <script>
 const app = document.getElementById('app');
 const tabs = document.querySelectorAll('.tab');
@@ -255,9 +273,9 @@ function showSection(section){
   if(section==='internships'){
     app.innerHTML=internshipHTML;
   }else if(section==='jobs'){
-    app.innerHTML=simpleSection('Jobs','Jobs','Latest job openings will be updated here','This space is reserved for verified job listings, application links and concise job-related updates.');
+    app.innerHTML=jobsHTML;
   }else if(section==='updates'){
-    app.innerHTML=simpleSection('Updates','Updates','Latest tech updates, useful apps, and software tools','This space will contain practical technology news, useful apps, software tools and student-focused resources.');
+    app.innerHTML=updatesHTML;
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -282,6 +300,27 @@ document.getElementById('termsBtn').addEventListener('click',()=>{
   app.innerHTML=termsHTML;
   window.scrollTo({top:0,behavior:'smooth'});
 });
+const paymentDemoBackdrop = document.getElementById('paymentDemoBackdrop');
+const closePaymentDemo = document.getElementById('closePaymentDemo');
+const demoPayButton = document.getElementById('demoPayButton');
+const demoPaymentStatus = document.getElementById('demoPaymentStatus');
+function openPaymentDemo(){
+  paymentDemoBackdrop.classList.add('show');
+  paymentDemoBackdrop.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closePaymentDemoModal(){
+  paymentDemoBackdrop.classList.remove('show');
+  paymentDemoBackdrop.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+closePaymentDemo.addEventListener('click',closePaymentDemoModal);
+paymentDemoBackdrop.addEventListener('click',e=>{if(e.target===paymentDemoBackdrop)closePaymentDemoModal();});
+demoPayButton.addEventListener('click',()=>{
+  demoPaymentStatus.textContent='Demo payment successful. No real transaction was processed.';
+  demoPaymentStatus.style.color='#067647';
+});
+function openExternal(url){ window.open(url,'_blank','noopener,noreferrer'); }
 document.getElementById('year').textContent=new Date().getFullYear();
 showSection('internships');
 </script>
